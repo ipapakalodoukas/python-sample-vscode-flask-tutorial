@@ -6,8 +6,21 @@
 trigger:
 - master
 
+#pool:
+#  vmImage: ubuntu-latest
+strategy:
+  matrix:
+    linux:
+      imageName: "ubuntu-latest"
+    mac:
+      imageName: "macOS-latest"
+    windows:
+      imageName: "windows-latest"
+  maxParallel: 3
+
 pool:
-  vmImage: ubuntu-latest
+  vmImage: $(imageName)
+  
 strategy:
   matrix:
     Python27:
@@ -35,9 +48,9 @@ steps:
     pytest
   displayName: 'pytest'
 
-- task: PublishCodeCoverageResults@1
-  inputs:
-    codeCoverageTool: "JaCoCo"
-    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
-    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
-    failIfCoverageEmpty: true
+#- task: PublishCodeCoverageResults@1
+#  inputs:
+#    codeCoverageTool: "JaCoCo"
+#    summaryFileLocation: "$(System.DefaultWorkingDirectory)/**/site/jacoco/jacoco.xml"
+#    reportDirectory: "$(System.DefaultWorkingDirectory)/**/site/jacoco"
+#    failIfCoverageEmpty: true
